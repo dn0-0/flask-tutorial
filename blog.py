@@ -86,6 +86,16 @@ def update(id):
 
     return render_template('blog/update.html', post=post)
 
+@bp.route('/<int:id>/detail', methods=('POST', 'GET'))
+def detail(id):
+    post = get_db().execute(
+        'SELECT p.id, title, body, created, author_id, username'
+        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' WHERE p.id = ?',
+    (id,)).fetchone()
+    
+    return render_template('blog/detail.html', post=post)
+
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
