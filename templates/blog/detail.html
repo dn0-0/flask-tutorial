@@ -20,6 +20,19 @@
         {% if g.user['id'] == post['author_id'] %}
           <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
         {% endif %}
+        {% if g.user %}
+          <form action="{{ url_for('blog.like', id=post['id']) }}" method="POST">
+            <button type="submit">
+              {% if post['user_liked'] %}❤️{% else %}♡{% endif %}
+              <span>{{ post['like_count'] }}</span>
+            </button>
+          </form>
+        {% else %}
+          <div>
+              {% if post['user_liked'] %}❤️{% else %}♡{% endif %}
+              <span>{{ post['like_count'] }}</span>
+          </div>
+        {% endif %}
       </header>
       <p class="body">{{ post['body'] }}</p>
     </article>
